@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you find CHAI useful, please consider citing it as below:"
+authors:
+- family-names: "Borrego"
+  given-names: "Agustín"
+  orcid: "https://orcid.org/0000-0003-3750-8484"
+- family-names: "Ayala"
+  given-names: "Daniel"
+  orcid: "https://orcid.org/0000-0003-2095-1009"
+- family-names: "Hernández"
+  given-names: "Inma"
+  orcid: "https://orcid.org/0000-0001-8920-6635"
+- family-names: "Rivero"
+  given-names: "Carlos R"
+  orcid: "https://orcid.org/0000-0002-5770-950X"
+- family-names: "Ruiz"
+  given-names: "David"
+  orcid: "https://orcid.org/0000-0003-4460-5493"
+title: "Generating Rules to Filter Candidate Triples for their Correctness Checking by Knowledge Graph Completion Techniques"
+doi: 10.1145/3360901.3364418
+date-released: 2019-09-23
+url: "https://github.com/DEAL-US/CHAI"
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Borrego"
+    given-names: "Agustín"
+    orcid: "https://orcid.org/0000-0003-3750-8484"
+  - family-names: "Ayala"
+    given-names: "Daniel"
+    orcid: "https://orcid.org/0000-0003-2095-1009"
+  - family-names: "Hernández"
+    given-names: "Inma"
+    orcid: "https://orcid.org/0000-0001-8920-6635"
+  - family-names: "Rivero"
+    given-names: "Carlos R"
+    orcid: "https://orcid.org/0000-0002-5770-950X"
+  - family-names: "Ruiz"
+    given-names: "David"
+  orcid: "https://orcid.org/0000-0003-4460-5493"
+  doi: "10.1145/3360901.3364418"
+  title: "Generating Rules to Filter Candidate Triples for their Correctness Checking by Knowledge Graph Completion Techniques"
+  year: 2019
+  conference: "10th International Conference on Knowledge Capture, K-CAP 2019"
+  start: 115
+  end: 122
+  message: "If you find CHAI useful, please consider citing it as below:"
