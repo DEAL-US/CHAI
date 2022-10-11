@@ -6,7 +6,7 @@ from os.path    import exists
 
 import sys
 import re
-
+import time
 
 FITNESS_THRESHOLD = 0.99
 
@@ -16,20 +16,28 @@ def get_fitness(recall, rr):
 def get_metrics_for_criteria(criteria, n_ents, s_s, test, test_dict):
     n_total = 0
     n_appear_test = 0
+    n_ss = len(set(s_s))
+
+    # Split the criteria for extra efficiency
+    # Relation-based criteria are entity-independent and can be calculated
+    # outside the entity loop
+    rel_criteria = [c for c in criteria if isinstance(c, RelationCriterion)]
+    dist_criteria = [c for c in criteria if isinstance(c, DistanceCriterion)]
+
+    cands = set()
+    for crit in rel_criteria:
+        cands.update(crit.get_candidates_for_entity(None))
 
     for s in s_s:
-        cands = []
-        for crit in criteria:
-            cands.extend(crit.get_candidates_for_entity(s))
-        if len(criteria) > 1:
-            cands = list(set(cands))
+        for crit in dist_criteria:
+            cands.update(crit.get_candidates_for_entity(s))
 
-        n_total += len(cands)
         if s in test_dict:
             n_appear_test += sum(1 for x in test_dict[s] if x in cands)
 
+    n_total = len(cands)
     recall = n_appear_test / len(test)
-    rr = 1 - n_total / (len(set(s_s)) * n_ents)
+    rr = 1 - n_total / (n_ss * n_ents)
     fitness = get_fitness(recall, rr)
     return recall, rr, fitness
 
@@ -102,7 +110,7 @@ for DATASET in sys.argv[1:]:
             RelationCriterion(rel + "_RANGE", list(set(ranges[rel]['ran'])))
         )
     
-    ### Distance criteria
+    # Distance criteria
     for i in (1,2,3,4):
         all_criteria.append(DistanceCriterion(f"subg{i}", DATASET, i, entity_dict))
 
@@ -119,13 +127,14 @@ for DATASET in sys.argv[1:]:
             for line in f:
                 relations_to_study.append(line.strip().split("\t")[0])
 
+    t1 = time.time()
+
     for rel in relations_to_study:
         print("=======================================")
         print("Using relation", rel)
         print("=======================================")
 
         criteria = all_criteria
-        #criteria = list(filter(lambda x: x.name == rel + "_RANGE", all_criteria))
 
         print("Selecting entities to evaluate")
         ents_to_eval = [s for s, _, _ in train_triples 
@@ -197,5 +206,6 @@ for DATASET in sys.argv[1:]:
         
         open(f"results/{DATASET}.txt", "a").writelines(file_lines_simple)
 
-
-
+    t2 = time.time()
+    with open("times.txt", "a") as f_times:
+        f_times.write(f"{DATASET};{t2-t1}\n")
